@@ -1,3 +1,4 @@
+//JUAN RODRIGO CALLO HUAYNA _SEGUNDO EJERCICIO
 #include <iostream>
 using namespace std;
 void print_matriz(int **m, int f,int c){
@@ -48,58 +49,63 @@ int* getColumn(int **mat,int f, int c, int x){
 		*(r++)=*(*(p++)+x);
 	}
 	return a;
- }
+}
 bool check_row(int **m,int f, int c){
 	int **p = m;
-	int *q = nullptr;
-	bool respuesta=true;
 	while (p < m + f) {
-		q = *p;
+		int *q = *p;
+		int contador=0;
 		while (q < *p + c) {
-			if(*(q++)==1)!respuesta;
-			if(respuesta)return !respuesta;
+			if(*(q++)==1)contador++;
+			if(contador>1)return false;
 		}
 		p++;
 	}
 	return true;
 }
 bool check_col(int **m,int f, int c){
-	bool respuesta=true;
 	int **p = m;
-	int *q = nullptr;
 	int cont = 0;
-
 	while (p < m + f) {
-		int* matriz = getColumn(m, f,  c, (cont++)%c);
-		q=matriz;
-		while (q < matriz + c) {
-			if(*(q++)==1)!respuesta;
-			if(respuesta)return !respuesta;
+		int *matriz= getColumn(m, f,  c, cont);
+		int *q=matriz;
+		int contador=0;
+		while (q < matriz + f) {
+			if(*(q++)==1)contador++;
+			if(contador>1)return false;
 		}
 		p++;
+		cont++;
 	}
 	return true;
 }
-int main(int argc, char *argv[]) {
+void chequeo_fila_columna(int **m,int f, int c){
+	cout<<"\t\t\tChequeo de fila.\n";
+	(check_row(m,f,c))?(cout<<"\t\t\tVerdadero"):(cout<<"\t\t\tFalso");
+	cout<<"\n";
+	cout<<"\t\t\tChequeo de columna.\n";
+	(check_col(m,f,c))?(cout<<"\t\t\tVerdadero\n"):(cout<<"\t\t\tFalso\n");
+}
+
+int main() {
 	int f=3;
 	int c=2;
 	int **nueva_m=new_matriz(f,c);
 	print_matriz(nueva_m,f,c);
-	
+	chequeo_fila_columna(nueva_m,f,c);
 	int x_f=2;
 	int x_c=1;
 	change_matriz(nueva_m,f,c,x_f,x_c);
-	 x_f=2;
-	 x_c=0;
+	x_f=2;
+	x_c=0;
 	change_matriz(nueva_m,f,c,x_f,x_c);
 	print_matriz(nueva_m,f,c);
-	
-	(check_row(nueva_m,f,c))?(cout<<"Verdadero"):(cout<<"Falso");
-	cout<<"\n";
+	chequeo_fila_columna(nueva_m,f,c);
 	x_f=0;
 	x_c=0;
 	change_matriz(nueva_m,f,c,x_f,x_c);
 	print_matriz(nueva_m,f,c);
-	(check_col(nueva_m,f,c))?(cout<<"Verdadero"):(cout<<"Falso");
+	chequeo_fila_columna(nueva_m,f,c);
 	return 0;
 }
+
